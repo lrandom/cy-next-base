@@ -1,4 +1,3 @@
-import {cookies} from "next/headers";
 
 export function useUtils() {
     function getCookieOnClient(name) {
@@ -9,13 +8,13 @@ export function useUtils() {
     }
 
     async function getCookieOnServer(name) {
-        const cookieStore = await cookies()
+        const cookies = require("next/headers").cookies;
+        const cookieStore = await cookies();
         return cookieStore.get(name).value;
     }
 
     async function getCookie(name) {
         if (typeof window === 'undefined') {
-            console.log(name);
             return await getCookieOnServer(name)
         }
         return getCookieOnClient(name);
